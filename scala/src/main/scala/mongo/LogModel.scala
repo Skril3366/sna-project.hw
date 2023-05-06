@@ -7,6 +7,9 @@ import ru.tinkoff.oolong.bson.BsonDecoder
 import ru.tinkoff.oolong.bson.given
 
 case class LogModel(
-    dateTime: Instant,
+    date: Instant,
+    host: String,
+    process: String,
+    pid: Int,
     message: String
 ) derives BsonEncoder, BsonDecoder
