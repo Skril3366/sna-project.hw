@@ -1,0 +1,61 @@
+version: '3'
+
+services:
+  mongodb:
+    image: mongo
+    restart: always
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - backend
+
+  postgresql:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: examplepassword
+    volumes:
+      - postgresql-data:/var/lib/postgresql/data
+    networks:
+      - backend
+
+  nginx:
+    image: nginx
+    restart: always
+    volumes:
+      - ../nginx_balancer/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - backend
+    depends_on:
+      - scala1
+      - scala2
+
+  scala1:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - mongodb
+      - postgresql
+
+  scala2:
+    build:
+      context: ..
+      dockerfile: ./docker/Dockerfile
+    networks:
+      - backend
+    depends_on:
+      - mongodb
+      - postgresql
+
+networks:
+  backend:
+
+volumes:
+  mongodb-data:
+  postgresql-data:
