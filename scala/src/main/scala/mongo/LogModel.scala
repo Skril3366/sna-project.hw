@@ -12,4 +12,14 @@ case class LogModel(
     process: String,
     pid: Int,
     message: String
-) derives BsonEncoder, BsonDecoder
+) derives BsonEncoder,
+      BsonDecoder
+
+case class LogModelFilter(
+    date: Option[Instant],
+    host: Option[String],
+    process: Option[String],
+    pid: Option[Int],
+    message: Option[String]
+) derives BsonEncoder,
+      BsonDecoder

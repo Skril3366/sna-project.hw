@@ -2,6 +2,7 @@ package web
 
 import config.Config
 import mongo.LogModel
+import mongo.LogModelFilter
 
 import io.circe.generic.auto._
 import sttp.model.StatusCode
@@ -13,13 +14,19 @@ import zio._
 
 trait Endpoints {
   def add: Endpoint[Unit, LogModel, Unit, Unit, Any]
+  def get: Endpoint[Unit, LogModelFilter, Unit, List[LogModel], Any]
 }
 
 class AppEndpoints(config: Config) extends Endpoints {
-  override def add = 
+  override def add =
     endpoint.post
       .in("add")
       .in(jsonBody[LogModel])
+  override def get =
+    endpoint.post
+      .in("get")
+      .in(jsonBody[LogModelFilter])
+      .out(jsonBody[List[LogModel]])
 }
 
 object Endpoints {

@@ -16,8 +16,8 @@ import ru.tinkoff.oolong.dsl.*
 import ru.tinkoff.oolong.mongo.*
 
 trait MongoDao {
-  def find(query: Bson): ZIO[Any, Throwable, Seq[LogModel]]
-  def insertOne(log: LogModel): ZIO[Any, Throwable, Unit]
+  def find(query: BsonDocument): Task[Seq[LogModel]]
+  def insertOne(log: LogModel): Task[Unit]
 }
 
 case class MongoDaoImpl(collection: MongoCollection[BsonDocument])
@@ -27,7 +27,7 @@ case class MongoDaoImpl(collection: MongoCollection[BsonDocument])
       .fromFuture(_ => collection.insertOne(log.bson.asDocument()).toFuture())
       .unit
 
-  override def find(query: Bson) =
+  override def find(query: BsonDocument) =
     ZIO
       .fromFuture(_ =>
         collection

@@ -41,9 +41,10 @@ class UrlShortenerRouter(
   }
 
   private val addEndpoint = compose(endpoints.add, logic.add)
+  private val getEndpoint = compose(endpoints.get, logic.get)
 
   override def route(router: VRouter): Task[Route] = {
-    List(addEndpoint).foreach(_(router))
+    List(addEndpoint, getEndpoint).foreach(_(router))
     ZIO.succeed(
       router.route()
     )
