@@ -9,11 +9,17 @@ services:
     networks:
       - backend
 
+  frontend:
+    build: ../frontend
+    volumes:
+      - ../frontend/dist:/app/dist
+
   nginx:
     image: nginx
     restart: always
     volumes:
       - ../nginx_balancer/nginx.conf:/etc/nginx/nginx.conf
+      - ../frontend/dist:/var/www/app/
     ports:
       - "80:80"
       - "443:443"
@@ -22,20 +28,17 @@ services:
     depends_on:
       - scala1
       - scala2
+      - frontend
 
   scala1:
-    build:
-      context: ..
-      dockerfile: ./docker/Dockerfile
+    build: ../scala
     networks:
       - backend
     depends_on:
       - mongodb
 
   scala2:
-    build:
-      context: ..
-      dockerfile: ./docker/Dockerfile
+    build: ../scala
     networks:
       - backend
     depends_on:

@@ -27,7 +27,7 @@ export default function LogSearch() {
             e.preventDefault();
             e.stopPropagation();
             console.log({host: host, date: date, process: process, pid: pid});
-            axios.get("/search", {params: {host: host, date: date, process: process, pid: pid}}).then(console.log);
+            axios.get("/api/get", {params: {host: host, date: date, process: process, pid: pid}}).then(console.log);
         }
         } className="mb-3">
             <Form.Group as={Row} className="mb-3 mt-3" controlId="host">

@@ -1421,7 +1421,7 @@ function LogSearch() {
         process: process,
         pid: pid
       });
-      axios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/search", {
+      axios__WEBPACK_IMPORTED_MODULE_3__["default"].get("/api/get", {
         params: {
           host: host,
           date: date,
