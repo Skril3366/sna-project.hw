@@ -8,26 +8,21 @@ export default function LogSearch() {
     const [date, setDate] = useState("");
     const [process, setProcess] = useState("");
     const [pid, setPid] = useState("");
-    const [resp, setResp] = useState([{
-        host: "test",
-        date: "1234-56-78 90:10:11.1213",
-        process: "/bin/test",
-        pid: "1",
-        message: "qwerty"
-    },
-        {
-            host: "test",
-            date: "1234-56-78 90:10:11.1213",
-            process: "/bin/test",
-            pid: "1",
-            message: "wasd"
-        }]);
+    const [resp, setResp] = useState();
     return <>
         <Form onSubmit={e => {
             e.preventDefault();
             e.stopPropagation();
-            console.log({host: host, date: date, process: process, pid: pid});
-            axios.get("/search", {params: {host: host, date: date, process: process, pid: pid}}).then(console.log);
+            const data = {};
+            if (host !== "")
+                data.host = host;
+            if (date !== "")
+                data.date = date;
+            if (process !== "")
+                data.process = process;
+            if (pid !== "")
+                data.pid = pid;
+            axios.post("/api/get", data).then(console.log);
         }
         } className="mb-3">
             <Form.Group as={Row} className="mb-3 mt-3" controlId="host">

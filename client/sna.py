@@ -11,8 +11,8 @@ def process(journal: journal.Reader):
         log_process = entry.get("_CMDLINE", "")
         log_pid = entry.get("_PID", "")
         log_message = entry.get("MESSAGE", "")
-        requests.post("http://localhost:9000/add", json={
-            "date": log_date.strftime("%d-%m-%y %H:%M:%S.%f"),
+        requests.post("http://localhost/api/add", json={
+            "date": log_date.strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "host": log_host,
             "process": log_process,
             "pid": log_pid,
