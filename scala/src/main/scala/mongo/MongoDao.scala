@@ -20,7 +20,7 @@ trait MongoDao {
   def insertOne(log: LogModel): Task[Unit]
 }
 
-case class MongoDaoImpl(collection: MongoCollection[BsonDocument])
+case class MongoDaoImpl(collection: MongoCollection[Document])
     extends MongoDao {
   override def insertOne(log: LogModel) =
     ZIO
@@ -36,7 +36,7 @@ case class MongoDaoImpl(collection: MongoCollection[BsonDocument])
       )
       .flatMap(docs =>
         ZIO.foreach(docs) { doc =>
-          ZIO.fromTry(BsonDecoder[LogModel].fromBson(doc))
+          ZIO.fromTry(BsonDecoder[LogModel].fromBson(doc.toBsonDocument()))
         }
       )
 }

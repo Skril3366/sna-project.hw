@@ -10,7 +10,6 @@ import mongo.LogModel
 import mongo.LogModelFilter
 import mongo.MongoDao
 
-
 trait Logic {
   def add(log: LogModel): ZIO[Any, Nothing, Unit]
   def get(filter: LogModelFilter): ZIO[Any, Nothing, List[LogModel]]
@@ -18,9 +17,18 @@ trait Logic {
 
 class LogicImpl(mongo: MongoDao) extends Logic {
   override def add(log: LogModel) =
-    mongo.insertOne(log).catchAll(e => ZIO.log(e.getMessage))
+    (for {
+      _ <- mongo.insertOne(log)
+      _ <- ZIO.logInfo("Successfully inserted new entry to database")
+    } yield ()).catchAll(e => ZIO.log(e.getMessage))
+
   override def get(filter: LogModelFilter) =
-    mongo.find(filter.bson.asDocument).map(_.toList).catchAll(e => ZIO.log(e.getMessage) *> ZIO.succeed(List.empty))
+    (for {
+      found <- mongo.find(filter.bson.asDocument).map(_.toList)
+      _ <- ZIO.logInfo("Successfully read an entry to database")
+    } yield found).catchAll(e =>
+      ZIO.log(e.getMessage) *> ZIO.succeed(List.empty)
+    )
 }
 
 object Logic {
