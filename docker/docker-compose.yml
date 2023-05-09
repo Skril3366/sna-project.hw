@@ -38,6 +38,8 @@ services:
       - backend
     depends_on:
       - mongodb
+    environment:
+      MONGO_CONNECTION_URI: "mongodb://127.0.0.1:27017" # TODO
 
   scala2:
     image: scala
