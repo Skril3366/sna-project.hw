@@ -6,8 +6,6 @@ services:
     restart: always
     volumes:
       - mongodb-data:/data/db
-    networks:
-      - backend
 
   frontend:
     image: frontend
@@ -24,8 +22,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    networks:
-      - backend
     depends_on:
       - scala1
       - scala2
@@ -34,23 +30,18 @@ services:
   scala1:
     image: scala
     build: ../scala
-    networks:
-      - backend
     depends_on:
       - mongodb
     environment:
-      MONGO_CONNECTION_URI: "mongodb://127.0.0.1:27017" # TODO
+      MONGO_CONNECTION_URI: "mongodb://mongodb:27017"
 
   scala2:
     image: scala
     build: ../scala
-    networks:
-      - backend
     depends_on:
       - mongodb
-
-networks:
-  backend:
+    environment:
+      MONGO_CONNECTION_URI: "mongodb://mongodb:27017"
 
 volumes:
   mongodb-data:

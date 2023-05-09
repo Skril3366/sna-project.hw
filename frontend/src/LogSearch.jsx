@@ -15,14 +15,14 @@ export default function LogSearch() {
             e.stopPropagation();
             const data = {};
             if (host !== "")
-                data.host = host;
+                data.host = `/${host}/`;
             if (date !== "")
-                data.date = date;
+                data.date = `/${date}/`;
             if (process !== "")
-                data.process = process;
+                data.process = `/${process}/`;
             if (pid !== "")
-                data.pid = pid;
-            axios.post("/api/get", data).then(console.log);
+                data.pid = `/${pid}/`;
+            axios.post("/api/get", {data: data,}).then(resp => setResp(resp.data));
         }
         } className="mb-3">
             <Form.Group as={Row} className="mb-3 mt-3" controlId="host">
