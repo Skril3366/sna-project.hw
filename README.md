@@ -2,17 +2,18 @@
 
 ## 🚀 Quick start
 
-To build and up service:
-```
-docker-compose build --no-cache && docker-compose up
-```
-
-## Scala Backend
-
-To build scala project using sbt:
-
+To build and start up backend services:
 ```bash
-cd scala
-sbt run
+docker-compose up
 ```
 
+To install all required components for client:
+```bash
+sudo apt install python3-systemd
+```
+
+To start logs collector client:
+```bash
+cd client
+python3 sna.py
+```
