@@ -6,6 +6,7 @@ To build and start up backend services:
 ```bash
 docker-compose up
 ```
+Logs search console: http://localhost
 
 To install all required components for client:
 ```bash
