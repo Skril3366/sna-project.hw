@@ -17,7 +17,7 @@ services:
     image: nginx
     restart: always
     volumes:
-      - nginx_balancer/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx_balancer/nginx.conf:/etc/nginx/nginx.conf
       - frontend-dist:/var/www/app/
     ports:
       - "80:80"
